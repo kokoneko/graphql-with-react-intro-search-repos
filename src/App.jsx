@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { ApolloProvider } from "react-apollo"
 import gql from "graphql-tag"
 import { Query } from "react-apollo"
