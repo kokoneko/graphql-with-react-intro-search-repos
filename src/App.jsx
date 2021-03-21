@@ -1,22 +1,36 @@
-import React from "react"
+import React, { useState } from "react"
 import { ApolloProvider } from "react-apollo"
 import { Query } from "react-apollo"
 import { client } from "./client"
-import { ME } from "./graphql"
+import { SEARCH_REPOSITORIES } from "./graphql"
 
 export const App = () => {
+
+  const VARIABLES = {
+    first: 5,
+    after: null,
+    last: null,
+    before: null,
+    query: "フロントエンドエンジニア"
+  };
+
+  const [variables, setVariables] = useState(VARIABLES);
+  
   return (
     <>
       <ApolloProvider client={client}>
-        <div>hello</div>
 
-        <Query query={ME}>
+        <Query 
+          query={SEARCH_REPOSITORIES}
+          variables={{...variables}}
+        >
           {
             ({loading, error, data}) => {
               if (loading) return "Loading..."
               if (error) return `Error! ${error.message}`
 
-              return <div>{data.user.name}</div>
+              console.log(data);
+              return <div></div>
             }
           }
         </Query>
