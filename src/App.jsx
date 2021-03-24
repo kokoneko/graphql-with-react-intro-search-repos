@@ -6,8 +6,9 @@ import { SEARCH_REPOSITORIES } from "./graphql"
 
 export const App = () => {
 
+  const PER_PAGE = 5
   const DEFAULT_STATE = {
-    first: 5,
+    first: PER_PAGE,
     after: null,
     last: null,
     before: null,
@@ -21,6 +22,18 @@ export const App = () => {
       ...variables, query: event.target.value
     })
   };
+
+  const goNext = (search) => {
+    const newVariables = {
+      first: PER_PAGE,
+      after: search.pageInfo.endCursor,
+      last: null,
+      before: null,
+      query: variables.query
+    };
+
+    setVariables(newVariables);
+  }
 
   return (
     <>
@@ -57,6 +70,14 @@ export const App = () => {
                       })
                     }
                   </ul>
+
+                  {
+                    search.pageInfo.hasNextPage === true ? 
+                      <button onClick={() => goNext(search)}>Next</button>
+                    :
+                    null
+                  }
+                  
                 </>
               )
             }
