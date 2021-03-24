@@ -23,6 +23,18 @@ export const App = () => {
     })
   };
 
+  const goPrevious = (search) => {
+    const newVariables = {
+      first: null,
+      after: null,
+      last: PER_PAGE,
+      before: search.pageInfo.startCursor,
+      query: variables.query
+    };
+
+    setVariables(newVariables);
+  }
+
   const goNext = (search) => {
     const newVariables = {
       first: PER_PAGE,
@@ -70,6 +82,13 @@ export const App = () => {
                       })
                     }
                   </ul>
+
+                  {
+                    search.pageInfo.hasPreviousPage === true ? 
+                      <button onClick={() => goPrevious(search)}>Previous</button>
+                    :
+                    null
+                  }
 
                   {
                     search.pageInfo.hasNextPage === true ? 
