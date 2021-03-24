@@ -6,7 +6,7 @@ import { SEARCH_REPOSITORIES } from "./graphql"
 
 export const App = () => {
 
-  const VARIABLES = {
+  const DEFAULT_STATE = {
     first: 5,
     after: null,
     last: null,
@@ -14,11 +14,20 @@ export const App = () => {
     query: "フロントエンドエンジニア"
   };
 
-  const [variables, setVariables] = useState(VARIABLES);
-  
+  const [variables, setVariables] = useState(DEFAULT_STATE);
+
+  const handleChange = (event) => {
+    setVariables({
+      ...variables, query: event.target.value
+    })
+  };
+
   return (
     <>
       <ApolloProvider client={client}>
+        <form action="">
+          <input type="text" value={variables.query} onChange={handleChange} />
+        </form>
 
         <Query 
           query={SEARCH_REPOSITORIES}
