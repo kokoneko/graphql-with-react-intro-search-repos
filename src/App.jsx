@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { ApolloProvider, Mutation, Query } from "react-apollo"
 import { client } from "./client"
 import { ADD_STAR, REMOVE_STAR, SEARCH_REPOSITORIES } from "./graphql"
@@ -64,14 +64,15 @@ export const App = () => {
     after: null,
     last: null,
     before: null,
-    query: "フロントエンドエンジニア"
+    query: ""
   };
 
   const [variables, setVariables] = useState(DEFAULT_STATE);
+  const inputQuery = useRef(null)
 
-  const handleChange = (event) => {
+  const handleClick = () => {
     setVariables({
-      ...variables, query: event.target.value
+      ...variables, query: inputQuery.current.value
     })
   };
 
@@ -102,9 +103,8 @@ export const App = () => {
   return (
     <>
       <ApolloProvider client={client}>
-        <form action="">
-          <input type="text" value={variables.query} onChange={handleChange} />
-        </form>
+        <input type="text" ref={inputQuery}/>
+        <button onClick={handleClick}>Search</button>
 
         <Query 
           query={SEARCH_REPOSITORIES}
